@@ -1,0 +1,29 @@
+machine: 
+  node:
+    version: 6.3.1
+  environment: 
+    S3_BUCKET: redsift-status
+
+checkout: 
+  pre:
+    - npm install -g npm
+  post: 
+    - git fetch --tags
+
+dependencies: 
+  override:
+    - npm install
+    - mv ./distribution ${CIRCLE_ARTIFACTS}/distribution
+
+test:
+  override:
+    - npm test 
+            
+deployment:
+  production:
+    branch: /release-.*/
+    commands:
+      - sudo pip install awscli
+      - echo "Uploading to S3 bucket..."
+      - aws s3 cp ${CIRCLE_ARTIFACTS}/distribution s3://$S3_BUCKET/ --recursive --acl public-read
+      - echo "S3 upload complete."

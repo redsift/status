@@ -1,0 +1,59 @@
+{
+  "name": "@redsift/status",
+  "version": "0.0.1",
+  "description": "Static, graphical status pages.",
+  "keywords": [
+    "status",
+    "page",
+    "redsift",
+    "chart"
+  ],
+  "homepage": "https://github.com/redsift/status",
+  "license": "MIT",
+  "author": {
+    "name": "Rahul Powar",
+    "url": "https://medium.com/@rahulpowar"
+  },
+  "main": "distribution/status.umd-es2015.js",
+  "browser": "distribution/status.umd-es2015.min.js",
+  "jsnext:main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/redsift/status.git"
+  },
+  "scripts": {
+    "serve": "gulp serve",
+    "build": "gulp build",
+    "pretest": "npm outdated && npm run build",
+    "test": "tape 'test/**/*-test.js' && eslint index.js src",
+    "prepublish": "npm run build"
+  },
+  "dependencies": {
+    "d3-selection": "^1.0.0",
+    "@redsift/ui-rs-core": "~0.1.3",
+    "@redsift/ui-rs-hero": "~0.1.3",
+    "@redsift/d3-rs-lines": "~0.2.3"
+  },
+  "devDependencies": {
+    "@redsift/tape-reel": "~0.1.0",
+    "browser-sync": "^2.13.0",
+    "del": "^2.2.1",
+    "eslint": "^3.1.1",
+    "gulp": "^3.9.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^2.0.0-alpha",
+    "gulp-uglify": "^2.0.0",
+    "gulp-util": "^3.0.7",
+    "gulp-stylus": "^2.5.0",
+    "gulp-postcss": "^6.1.1",
+    "postcss-inline-base64": "^2.0.0",
+    "rollup": "^0.34.1",
+    "rollup-plugin-node-resolve": "^2.0.0",  
+    "rollup-plugin-commonjs": "^3.3.0",     
+    "rollup-plugin-buble": "^0.12.1",
+    "rollup-plugin-json": "^2.0.0",
+    "rollup-stream": "^1.11.0",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
+  }
+}
