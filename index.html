@@ -38,20 +38,32 @@
     <link rel="icon" sizes="16x16" type="image/png" href="/favicon-16x16.png" dochead="1"/>
     <link rel="icon" sizes="32x32" type="image/png" href="/favicon-32x32.png" dochead="1"/>
     <link rel="icon" sizes="96x96" type="image/png" href="/favicon-96x96.png" dochead="1"/>
+    <link rel="stylesheet" type="text/css" href="index.css">
+
+
 </head>
 <body>
-    <!-- Hero part -->
-    <rs-hero header="Taxi Sift" bg-class="-bg-network" scroll-target="#scroll-anchor">
-        <code class="fade-in">100%</code>
-        <p class="fade-in delay">Your taxi bills from last week</p>
-    </rs-hero>
+    <div class="hero -effect-darken" style="visibility: hidden">
+        <img id="logo" src="" class="hero__icon" title="Red Sift"/>
+        <div class="hero__container">
+            <div class="hero__content">
+                <code class="fade-in">100%</code>
+                <p class="fade-in delay">All systems are operational.</p>
+            </div>
+            <a id="smooth" href="#scroll-anchor"><div class="down-arrow"></div></a></div>
+            
+        </div>
+    </div>
 
-    <!-- Content part -->
     <div class="content" id="scroll-anchor">
     <div class="content__container--expand">
         <h2>Item in <strong>content</strong> unit</h2>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
     </div>
     </div>
+    <script type="text/javascript" src="index.umd-es2015.js"></script>
+    <script>
+        this.booo.d3.select('div.hero').attr('style', null);
+    </script>
 </body>
 </html>

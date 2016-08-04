@@ -8,6 +8,7 @@ var uglify = require('gulp-uglify');
 var browserSync = require('browser-sync').create();
 var buble = require('rollup-plugin-buble');
 var nodeResolve = require('rollup-plugin-node-resolve');
+
 var sourcemaps = require('gulp-sourcemaps');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
@@ -17,28 +18,34 @@ var json = require('rollup-plugin-json');
 var stylus = require('gulp-stylus');
 var postcss = require('gulp-postcss');
 var base64 = require('postcss-inline-base64');
+var string = require('rollup-plugin-string');
+var image = require('rollup-plugin-image');
 
 gulp.task('clean', () => del([ 'distribution/**' ]));  
 
 gulp.task('static', function() {
     gulp.src('./index.html')
         .pipe(gulp.dest('./distribution'));
+
+    gulp.src([ './static/*.jpg', './static/*.svg', './static/*.webp' ])
+        .pipe(gulp.dest('./distribution'));
 });
 
 gulp.task('css', () => {
   return gulp.src('./style/index.styl')
     .pipe(stylus({
-      compress: true
+      compress: true,
+      include: __dirname + '/node_modules'
     }))
     .pipe(postcss([
-        base64()
+        base64({ baseDir: './static' })
     ]))
     .pipe(gulp.dest('./distribution'));
 });
 
 gulp.task('umd', () => {  
   return rollup({
-            moduleName: 'status',
+            moduleName: 'booo',
             globals: [],
             entry: 'index.js',
             format: 'umd',
@@ -48,23 +55,13 @@ gulp.task('umd', () => {
                             include: [ '**/package.json' , 'node_modules/**/*.json' ], 
                             exclude: [  ]
                         }),
+                        image(),
+                        string({
+                            include: [ '**/*.tmpl' ]
+                        }),
                         nodeResolve({
                             skip: [],
-                            // use "jsnext:main" if possible
-                            // – see https://github.com/rollup/rollup/wiki/jsnext:main
-                            jsnext: true,  // Default: false
-
-                            // use "main" field or index.js, even if it's not an ES6 module
-                            // (needs to be converted from CommonJS to ES6
-                            // – see https://github.com/rollup/rollup-plugin-commonjs
-                            main: true,  // Default: true
-
-                            // not all files you want to resolve are .js files
-                            extensions: [ '.js' ],  // Default: ['.js']
-
-                            // whether to prefer built-in modules (e.g. `fs`, `path`) or
-                            // local ones with the same names
-                            preferBuiltins: false  // Default: true
+                            jsnext: true
                         }),
                         commonjs(), 
                         buble() 
@@ -73,7 +70,7 @@ gulp.task('umd', () => {
         .pipe(source('main.js', './src'))
         .pipe(buffer())
         .pipe(sourcemaps.init({ loadMaps: true }))
-        .pipe(rename({basename: outputFilename}))
+        .pipe(rename({basename: 'index'}))
         .pipe(rename({suffix: '.umd-es2015'}))
         .pipe(gulp.dest('distribution/'))
         .pipe(uglify())
@@ -92,9 +89,9 @@ gulp.task('browser-sync', function() {
 });
 
 gulp.task('serve', ['default', 'browser-sync'], function() {
-    gulp.watch(['./*.js', './src/*.js'], [ 'umd' ]);
+    gulp.watch(['./index.js', './src/*.js'], [ 'umd' ]);
     gulp.watch('./style/*.styl', [ 'css' ]);
-    gulp.watch(['./static/*.html', './static/*.svg', './static/*.jpg'], [ 'static' ]);
+    gulp.watch(['./*.html', './static/*.svg', './static/*.jpg'], [ 'static' ]);
     gulp.watch('./distribution/*.js').on('change', () => browserSync.reload('*.js'));
     gulp.watch('./distribution/*.css').on('change', () => browserSync.reload('*.css'));
     gulp.watch('./distribution/*.html').on('change', () => browserSync.reload('*.html'));

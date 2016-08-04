@@ -1,10 +1,33 @@
-@import 'node_modules/@redsift/ui-rs-core/src/index.import.styl'
+@import '@redsift/ui-rs-core/src/index.import.styl'
+@import '@redsift/ui-rs-hero/src/index.import.styl'
 
-.-bg-network {
-  background-image: url('//static.redsift.io/assets/images/taxi-1.jpg');
-  background-color: rgb(42, 24, 22);
+iconSize = 28px
+iconOffset = 20px
+
+div.hero {
+    height: 50vh;
+}
+
+div.hero > svg.background {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;    
+    z-index: -1;
+}
+
+div.hero > img.hero__icon {
+    position: absolute;
+    top: 2.3em;
+    left: 1.5em;
+    z-index: 99;    
+    width: iconSize;
+    height: iconSize;
 }
 
 .content__container--expand {
 
 }
+
+
