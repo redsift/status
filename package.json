@@ -33,6 +33,7 @@
   "dependencies": {
     "d3-selection": "^1.0.0",
     "@redsift/ui-rs-core": "~0.3.3",
+    "@redsift/ui-rs-hero": "~0.2.0",
     "@redsift/d3-rs-lines": "~0.2.3"
   },
   "devDependencies": {
@@ -42,6 +43,8 @@
     "del": "^2.2.1",
     "eslint": "^3.1.1",
     "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-cleancss": "^0.2.2",
     "gulp-data": "^1.2.1",
     "gulp-gm": "0.0.8",
     "gulp-htmllint": "^0.0.9",

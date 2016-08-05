@@ -17,6 +17,8 @@ var data = require('gulp-data'),
     rename = require('gulp-rename'),
     sourcemaps = require('gulp-sourcemaps'),
     stylus = require('gulp-stylus'),
+    minifyCss = require('gulp-cleancss'),
+    autoprefixer = require('gulp-autoprefixer'),    
     uglify = require('gulp-uglify'),
     buffer = require('vinyl-buffer'),
     source = require('vinyl-source-stream'),
@@ -161,13 +163,28 @@ gulp.task('html', function() {
 
 gulp.task('css', () => {
   return gulp.src('style/index.styl')
+    .pipe(gulpif(options.plumb, plumber()))
     .pipe(stylus({
-      compress: true,
       include: __dirname + '/node_modules'
     }))
     .pipe(postcss([
         base64({ baseDir: 'static/' })
     ]))
+    .pipe(autoprefixer({
+      browsers: ['last 2 versions'],
+      cascade: false
+    }))
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest('distribution/'))
+    .pipe(rename({
+      suffix: '.min'
+    }))
+    .pipe(minifyCss({
+      compatibility: '*',
+      roundingPrecision: 4,
+      keepSpecialComments: 0
+    }))
+    .pipe(sourcemaps.write('.'))    
     .pipe(gulp.dest('distribution/'));
 });
 
