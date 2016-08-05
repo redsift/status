@@ -1,0 +1,10 @@
+
+{% for icon in iconsApple -%}
+<link rel="apple-touch-icon" sizes="{{ icon.size }}" href="{{ icon.src }}"/>
+{% endfor %}
+{% for icon in icons -%}
+<link rel="icon" sizes="{{ icon.size }}" type="image/png" href="{{ icon.src }}"/>
+{% if icon.size == "144x144" -%}
+<meta name="msapplication-TileImage" content="{{ icon.src }}"/>
+{%- endif %}
+{%- endfor %}

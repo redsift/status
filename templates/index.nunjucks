@@ -1,0 +1,31 @@
+{% extends "layout.nunjucks" %}
+
+{% block head %} 
+    {% include "partials/metadata.nunjucks" %}
+    {% include "partials/favicons.nunjucks" %}
+{% endblock %}
+
+{% block body %}
+    <div class="hero -effect-darken">
+    
+<!-- htmllint img-req-src="false" -->
+        <img id="logo" src="" class="hero__icon" title="Red Sift" alt="Red Sift Logo"/>
+<!-- htmllint img-req-src="$previous" -->     
+
+        <div class="hero__container">
+            <div class="hero__content">
+                <code class="fade-in">100%</code>
+                <p class="fade-in delay">All systems are operational.</p>
+            </div>
+            <a id="smooth" href="#scroll-anchor"><div class="down-arrow"></div></a></div>
+            
+        </div>
+    </div>
+
+    <div class="content" id="scroll-anchor">
+    <div class="content__container--expand">
+        <h2>Item in {{ something }} <strong>content</strong> unit</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
+    </div>
+    </div>
+{% endblock %}

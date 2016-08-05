@@ -3,21 +3,23 @@ export {
   version
 } from "./package.json";
 
-// Register the hero presentation
-//import _ from "@redsift/ui-rs-hero";
-
-import placeholder from './static/hero_i.jpg';
-
-import logo from './static/redsift-logo-white.svg';
-
-// Import the chart app
-import charts from "./src/charts";
-import reveal from "./src/reveal";
 import { select } from "d3-selection";
 
 export const d3 = {
   select: select
 };
+
+import { base64 as placeholder } from './static/hero_i.jpg';
+import { 
+  width as imgWidth,
+  height as imgHeight
+} from './static/hero.jpg';
+
+import { base64 as logo } from './static/redsift-logo-white.svg';
+
+// Import the chart app
+import charts from "./src/charts";
+import reveal from "./src/reveal";
 
 charts();
 
@@ -43,12 +45,13 @@ const IMAGE_CHECK = WEBP_CHECK.then((webp) => {
 // let img = 'https://static.redsift.io/assets/images/beach_2x.jpg';
 // console.log(placeholder);
 let imageReveal = reveal('svg-reveal')
-                    .placeholder(placeholder.data)
-                    .imgWidth(placeholder.width)
-                    .imgHeight(placeholder.height)
+                    .placeholder(placeholder)
+                    .imgWidth(imgWidth)
+                    .imgHeight(imgHeight)
                     .img(IMAGE_CHECK.then(i => `./hero${i.retina ? '_2x' : ''}.${i.webp ? 'webp' : 'jpg'}`))
                     .classed('background');
 
-select('.hero').call(imageReveal);
-
-select('#logo').attr('src', logo.data);
+document.addEventListener('DOMContentLoaded', () => {
+  select('.hero').call(imageReveal);
+  select('#logo').attr('src', logo);
+});

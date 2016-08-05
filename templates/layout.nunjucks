@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{{ title }}</title>
+<link rel="canonical" href="{{ url }}"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+{% for href in preconnect -%}
+<link rel="preconnect" href="{{ href }}"/>
+{% endfor %}
+{% block head %} {% endblock %}
+<link rel="manifest" href="/manifest.json"/>   
+<link rel="stylesheet" type="text/css" href="index.css">
+<!-- Our layout is done in JS so set this up first -->
+<script type="text/javascript" src="index.umd-es2015.min.js"></script>
+</head>
+<!-- htmllint attr-bans="false" -->
+<body style="background: {{ background }}">
+<!-- htmllint attr-bans="$previous" -->   
+    {% block body %} {% endblock %}
+</body>
+</html>

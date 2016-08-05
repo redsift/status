@@ -5,4 +5,6 @@ distribution/
 
 npm-debug.log
 
-static/
+assets/
+
+*.icc
