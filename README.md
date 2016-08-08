@@ -5,3 +5,8 @@
 
 Super simple, completely static, status pages.
 
+## S3 Assets
+
+If using assets on S3 that are not world readable
+
+AWS_ACCESS_KEY_ID=... AWS_SECRET_ACCESS_KEY=... npm run serve

@@ -37,7 +37,8 @@
     "@redsift/d3-rs-lines": "~0.2.3"
   },
   "devDependencies": {
-    "@redsift/rollup-plugin-imagedata": "^1.0.0",
+    "@redsift/gulp-compressedimages": "~0.0.1",
+    "@redsift/rollup-plugin-imagedata": "~1.0.0",
     "@redsift/tape-reel": "~0.1.0",
     "browser-sync": "^2.13.0",
     "del": "^2.2.1",
@@ -46,7 +47,7 @@
     "gulp-autoprefixer": "^3.1.0",
     "gulp-cleancss": "^0.2.2",
     "gulp-data": "^1.2.1",
-    "gulp-gm": "0.0.8",
+    "gulp-expect-file": "0.0.7",
     "gulp-htmllint": "^0.0.9",
     "gulp-if": "^2.0.1",
     "gulp-jsonlint": "^1.1.2",
@@ -57,6 +58,7 @@
     "gulp-sourcemaps": "^2.0.0-alpha",
     "gulp-stylus": "^2.5.0",
     "gulp-uglify": "^2.0.0",
+    "merge-stream": "^1.0.0",
     "postcss-inline-base64": "^2.0.0",
     "rollup": "^0.34.1",
     "rollup-plugin-buble": "^0.12.1",
@@ -65,7 +67,9 @@
     "rollup-plugin-node-resolve": "^2.0.0",
     "rollup-plugin-string": "^2.0.2",
     "rollup-stream": "^1.11.0",
+    "run-sequence": "^1.2.2",
     "vinyl-buffer": "^1.0.0",
+    "vinyl-s3": "^0.3.0",
     "vinyl-source-stream": "^1.1.0"
   }
 }

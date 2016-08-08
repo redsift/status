@@ -9,7 +9,10 @@ export const d3 = {
   select: select
 };
 
-import { base64 as placeholder } from './static/hero_i.jpg';
+import { 
+  base64 as placeholder 
+} from './static/hero_0x.jpg';
+
 import { 
   width as imgWidth,
   height as imgHeight

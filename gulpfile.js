@@ -4,10 +4,13 @@ var gulp = require('gulp');
 var browserSync = require('browser-sync').create();
 
 var fs = require('fs'),
-    del = require('del');
+    del = require('del'),
+    crypto = require('crypto'),
+    url = require('url');
 
-var data = require('gulp-data'),
-    gm = require('gulp-gm'),
+var compressedImages = require('@redsift/gulp-compressedimages'),
+    data = require('gulp-data'),
+    expect = require('gulp-expect-file'),
     htmllint = require('gulp-htmllint'),
     gulpif = require('gulp-if'),
     jsonlint = require('gulp-jsonlint'),
@@ -22,7 +25,10 @@ var data = require('gulp-data'),
     uglify = require('gulp-uglify'),
     buffer = require('vinyl-buffer'),
     source = require('vinyl-source-stream'),
-    base64 = require('postcss-inline-base64');
+    s3 = require('vinyl-s3'),
+    base64 = require('postcss-inline-base64'),
+    merge = require('merge-stream'),
+    runSequence = require('run-sequence'); // temporary use of run-sequence until Gulp 4.0
 
 var rollup = require('rollup-stream'),
     buble = require('rollup-plugin-buble'),
@@ -33,112 +39,74 @@ var rollup = require('rollup-stream'),
     string = require('rollup-plugin-string');
 
 var options = {
-    plumb: false
-};
-
-var sRGB = './sRGB_v4_ICC_preference.icc';
-
-function commonImageOptions(gmfile) {
-    try {
-        // do this check as if not present, the ICC profile failure is silent
-        fs.accessSync(sRGB, fs.F_OK);
-    } catch (e) {
-        throw new Error('Please download the official sRGB ICC profile "sRGB_v4_ICC_preference.icc" from http://www.color.org/srgbprofiles.xalter and place in this directory');
+    plumb: false,
+    configuration: JSON.parse(fs.readFileSync('configuration.json', 'utf8')),
+    assets: {
+        hero: './assets/hero-original.jpg'
     }
-
-    return gmfile.intent('Relative')
-                .profile(sRGB)
-                .strip();
-}
-
-function jpegImageOptions(gmfile) {
-    return gmfile.interlace('Plane')
-                .flatten();
-}
-
-function webpImageOptions(gmfile) {
-    return gmfile.define('webp:auto-filter=true')
-                .define('webp:method=6')
-                .define('webp:image-hint=photo')
-                .define('webp:partitions=0') 
-                .define('webp:preprocessing=2') 
-                .define('webp:sns-strength=0');
-}
+};
 
 gulp.task('clean', () => del([ 'distribution/**' ]));  
 
-/*
-IM_FLAGS="-intent relative -black-point-compensation -profile sRGB_v4_ICC_preference.icc -strip -units PixelsPerInch"
-WEBP_OPS="-define webp:auto-filter=true -define webp:method=6 -define webp:image-hint=photo -define webp:partitions=2 -define webp:preprocessing=2 -define webp:sns-strength=0"
-JPEG_OPS="-interlace Plane -background white -flatten"
+gulp.task('assets', function() {
+    var hero = options.configuration.assets.hero;
 
-OUTPUTS=("_c" "_c_2x" "" "_2x")
-"-resize 480 -unsharp 4x1.4+0.7+0 -quality 90" 
-"-resize 960 -unsharp 3x0.6+0.7+0 -quality 85" 
-"-resize 1024 -density 96 -unsharp 3x0.6+0.7+0 -quality 90" 
-"-resize 2048 -density 300 -quality 92")
+    if (/^s3:\/\//.test(hero)) {
+        // Pull the assets from S3 with some simple cache logic
+        var modstamp = null;
 
-*/
+        var hash = crypto.createHash('sha1').update(hero).digest('hex');
+        options.assets.hero = 'assets/' + hash + '.s3';
+
+        try {
+            var stats = fs.statSync(options.assets.hero);
+            modstamp = stats.mtime;
+            // could use this value but for now assume file is up to date
+            // as the s3 library causes this to be propogated as an uncaught
+            // exception. Investigate and send pull request
+            return;
+        }
+        catch (e) {
+            if (e.code !== 'ENOENT') throw e;
+        }
+
+        var parsed = url.parse(hero);
+
+        return s3.src({ 
+                Bucket: parsed.hostname,
+                Key: parsed.path.substring(1),
+                IfModifiedSince: modstamp
+            })
+            .pipe(rename({dirname:'./', basename: hash, extname: '.s3'}))
+            .pipe(gulp.dest('assets/'));
+
+    } else {
+        options.assets.hero = hero;
+    }
+});
+
 
 gulp.task('hero', function() {
-    var configuration = JSON.parse(fs.readFileSync('configuration.json', 'utf8'));
-
-    [
-        {
-            size: 512,
-            quality: 90,
-            suffix: '_05x',
-            unsharp: [ 4, 1.4, 0.7, 0 ]
-        },
-        {
-            size: 1024,
-            quality: 90,
-            suffix: '',
-            unsharp: [ 3, 0.6, 0.7, 0 ]
-        },  
-        {
-            size: 2048,
-            quality: 92,
-            suffix: '_2x'
-        }     
-    ].forEach(function (o) {
-        [   { format: 'jpg', fn: g => jpegImageOptions(commonImageOptions(g)) }, 
-            { format: 'webp', fn: g => webpImageOptions(commonImageOptions(g)) } 
-        ].forEach(function (files) {
-
-            gulp.src(configuration.hero)
-                .pipe(gm(function (gmfile) {
-                    var small = files.fn(gmfile).resize(o.size);
-                    if (o.unsharp) {
-                         small = small.unsharp.apply(small, o.unsharp);
-                    }
-                    return small.setFormat(files.format).quality(o.quality);
-                }, 
-                { imageMagick: true })
-                )
-                .pipe(rename({basename: '_hero' + o.suffix, extname: '.' + files.format }))
-                .pipe(gulp.dest('distribution/'));
-
-        });
-
-
-    });
-
+    // Generate outputs for all the common formats
+    return merge.apply(this, compressedImages.common.map(function (o) {
+        return gulp.src(options.assets.hero)
+            .pipe(expect([ options.assets.hero ]))
+            .pipe(rename({basename: 'hero'}))
+            .pipe(compressedImages.resampler(o))
+            .pipe(gulp.dest('static/'));
+    }));
 
 });
 
 gulp.task('static', function() {
-    gulp.src('static/*.+(jpg|svg|webp)')
-        .pipe(gulp.dest('distribution/'));
+    return gulp.src('static/*.+(jpg|svg|webp)').pipe(gulp.dest('distribution/'));
 });
 
 gulp.task('html', function() {
-    var configuration = JSON.parse(fs.readFileSync('configuration.json', 'utf8'));
-
-    gulp.src([ 'templates/manifest.nunjucks' ])
+    var manifest = gulp.src([ 'templates/manifest.nunjucks' ])
                 .pipe(gulpif(options.plumb, plumber()))
                 .pipe(data(function() {
-                    return configuration;
+                    return options.configuration;
                 }))
                 .pipe(nunjucksRender({
                     path: ['templates']
@@ -149,16 +117,18 @@ gulp.task('html', function() {
                 .pipe(rename({extname: '.json'}))
                 .pipe(gulp.dest('distribution'));
 
-    gulp.src([ 'templates/index.nunjucks' ])
+    var index = gulp.src([ 'templates/index.nunjucks' ])
                 .pipe(gulpif(options.plumb, plumber()))
                 .pipe(data(function() {
-                    return configuration;
+                    return options.configuration;
                 }))
                 .pipe(nunjucksRender({
                     path: ['templates']
                 }))
                 .pipe(htmllint({ config: '.htmllintrc' }))
                 .pipe(gulp.dest('distribution'));
+
+    return merge(manifest, index);                
 });
 
 gulp.task('css', () => {
@@ -224,8 +194,12 @@ gulp.task('umd', () => {
         .pipe(gulp.dest('distribution/'));
 });
 
+gulp.task('options', function () {
+    options.plumb = true;
+});
+
 gulp.task('browser-sync', function() {
-    browserSync.init({
+    return browserSync.init({
         server: {
             baseDir: [ 'distribution/' ],
             directory: true
@@ -233,11 +207,7 @@ gulp.task('browser-sync', function() {
     });
 });
 
-gulp.task('plumb', function () {
-    options.plumb = true;
-});
-
-gulp.task('serve', [ 'plumb', 'default', 'browser-sync' ], function() {
+gulp.task('watch', function() {
     gulp.watch(['index.js', 'src/*.js'], [ 'umd' ]);
     gulp.watch('style/*.styl', [ 'css' ]);
     gulp.watch(['templates/**/*.+(html|nunjucks)', 'configuration.json'], [ 'html' ]);
@@ -252,6 +222,23 @@ gulp.task('serve', [ 'plumb', 'default', 'browser-sync' ], function() {
     gulp.watch('distribution/*.webp').on('change', () => browserSync.reload('*.webp'));
 });
 
-gulp.task('build', [ 'clean', 'default' ]);
+gulp.task('serve', function(callback) {
+  runSequence('options',
+              'default',
+              'browser-sync',
+              'watch',
+              callback);
+});
 
-gulp.task('default', [ 'umd', 'css', 'html', 'static' ]);
+gulp.task('build', function(callback) {
+  runSequence('clean',
+              'default',
+              callback);
+});
+
+gulp.task('default', function(callback) {
+  runSequence('assets',
+              'hero',
+              [ 'umd', 'css', 'html', 'static' ],
+              callback);
+});
