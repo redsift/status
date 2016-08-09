@@ -18,7 +18,7 @@ import {
   height as imgHeight
 } from './static/hero.jpg';
 
-import { base64 as logo } from './static/redsift-logo-white.svg';
+import { base64 as logo } from './static/logo.svg';
 
 // Import the chart app
 import charts from "./src/charts";

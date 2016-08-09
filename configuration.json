@@ -9,7 +9,8 @@
     "theme": "red",
     "card": "https://static.redsift.io/assets/images/social-card.jpg",
     "assets": {
-        "hero": "s3://redsift-assets/github.com/redsift/status/hero/photo-1456824399588-844440089f4b.jpg"
+        "hero": "s3://redsift-assets/github.com/redsift/status/hero/photo-1456824399588-844440089f4b.jpg",
+        "logo": "s3://redsift-assets/github.com/redsift/status/ui/redsift-logo-white.svg"
     },
     "preconnect": [
         "https://static.redsift.com",

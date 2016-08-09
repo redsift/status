@@ -91,10 +91,26 @@ function downloadAsset(asset) {
 gulp.task('clean', () => del([ 'distribution/**' ]));  
 
 gulp.task('assets', function() {
-    var download = downloadAsset(options.configuration.assets.hero);
+    var downloads = Object.keys(options.configuration.assets).map(function (key) {
+        var asset = options.configuration.assets[key];
 
-    options.assets.hero = download.local;
-    return download.task;
+        return { key: key, asset: downloadAsset(asset) };
+    });
+
+    downloads.forEach(function (d) {
+        options.assets[d.key] = d.asset.local;
+    });
+
+    var tasks = downloads.map(function (d) {
+        return d.asset.task;
+    })
+    .filter(function (d) {
+        return d != null;
+    });
+
+    if (tasks.length === 0) return null;
+
+    return merge.apply(this, tasks);
 });
 
 
@@ -108,6 +124,13 @@ gulp.task('hero', function() {
             .pipe(gulp.dest('static/'));
     }));
 
+});
+
+gulp.task('logo', function() {
+    return gulp.src(options.assets.logo)
+        .pipe(expect([ options.assets.logo ]))
+        .pipe(rename({basename: 'logo', extname: '.svg'}))
+        .pipe(gulp.dest('static/'));    
 });
 
 gulp.task('static', function() {
@@ -250,7 +273,7 @@ gulp.task('build', function(callback) {
 
 gulp.task('default', function(callback) {
   runSequence('assets',
-              'hero',
+              [ 'hero', 'logo' ],
               [ 'umd', 'css', 'html', 'static' ],
               callback);
 });
