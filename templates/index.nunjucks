@@ -25,9 +25,16 @@
     </div>
 
     <div class="content" id="status-data">
+    <div class="content__container">
+        <h4>What is this site?</h4>
+        <p>We continuously monitor the status of <a href="{{ references }}">{{ site }}</a> and all related services. If there are any interruptions in service, a note will be posted here.</p>
+    </div>
+    </div>
+
+    <div class="content" id="status-charts">
     <div class="content__container--expand">
-        <h2>Item in {{ something }} <strong>content</strong> unit</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
+        <h4>What are these charts?</h4>
+        <p>These charts are sampled periodically from our own internal metrics about the performance and availability of our services. They’re accurate to within a few minutes.</p>
     </div>
     </div>
 {% endblock %}

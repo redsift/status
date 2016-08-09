@@ -7,9 +7,16 @@ machine:
 checkout: 
   pre:
     - npm install -g npm
+    - |
+        cd /tmp
+        mkdir imagemagick
+        cd imagemagick
+        curl http://redsift-static.s3.amazonaws.com/thirdparty/imagemagick/6.7.7/ubuntu-14.04/imagemagick-6.7.7.tar.bz2 | tar -xj
+        sudo dpkg -i imagemagick-common*.deb  imagemagick-doc*.deb libmagick*.deb     
   post: 
     - git fetch --tags
-
+    - curl -sO http://www.color.org/sRGB_v4_ICC_preference.icc
+    
 dependencies: 
   override:
     - npm install

@@ -5,6 +5,16 @@
 
 Super simple, completely static, status pages.
 
+## ImageMagick
+
+The build process transcodes and embeds images to optimize display of images, including exporting WEBP images to be loaded in compatible browsers. Build relies on a compatible install of ImageMagick in the path. Specifically, the insalled version should support SVG, WEBP and have Little CMS support.
+
+### OS-X & Homebrew
+
+```bash
+$ brew reinstall imagemagick --with-webp --with-little-cms2 --with-librsvg
+```
+
 ## S3 Assets
 
 If using assets on S3 that are not world readable

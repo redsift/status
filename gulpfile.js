@@ -43,7 +43,7 @@ var rollup = require('rollup-stream'),
 
 var options = {
     plumb: false,
-    configuration: JSON.parse(fs.readFileSync('configuration.json', 'utf8')),
+    configuration: function() { return JSON.parse(fs.readFileSync('configuration.json', 'utf8')) },
     assets: {
         hero: './assets/hero-original.jpg'
     }
@@ -94,8 +94,9 @@ function downloadAsset(asset) {
 gulp.task('clean', () => del([ 'distribution/**' ]));  
 
 gulp.task('assets', function() {
-    var downloads = Object.keys(options.configuration.assets).map(function (key) {
-        var asset = options.configuration.assets[key];
+    var configuration = options.configuration();
+    var downloads = Object.keys(configuration.assets).map(function (key) {
+        var asset = configuration.assets[key];
 
         return { key: key, asset: downloadAsset(asset) };
     });
@@ -129,11 +130,16 @@ gulp.task('hero', function() {
 
 });
 
-gulp.task('logo', function() {
-    return gulp.src(options.assets.logo)
-        .pipe(expect([ options.assets.logo ]))
-        .pipe(rename({basename: 'logo', extname: '.svg'}))
-        .pipe(gulp.dest('static/'));    
+gulp.task('icons', function() {
+    var icons = Object.keys(options.assets).filter(function (a) { return a !== 'hero' });
+    return merge.apply(this, icons.map(function (name) {
+        var path = options.assets[name];
+
+        return gulp.src(path)
+            .pipe(expect([ path ]))
+            .pipe(rename({basename: name, extname: '.svg'}))
+            .pipe(gulp.dest('static/'));    
+    }));
 });
 
 gulp.task('static', function() {
@@ -144,7 +150,7 @@ gulp.task('html', function() {
     var manifest = gulp.src([ 'templates/manifest.nunjucks' ])
                 .pipe(gulpif(options.plumb, plumber()))
                 .pipe(data(function() {
-                    return options.configuration;
+                    return options.configuration();
                 }))
                 .pipe(nunjucksRender({
                     path: ['templates']
@@ -158,7 +164,7 @@ gulp.task('html', function() {
     var index = gulp.src([ 'templates/index.nunjucks' ])
                 .pipe(gulpif(options.plumb, plumber()))
                 .pipe(data(function() {
-                    return options.configuration;
+                    return options.configuration();
                 }))
                 .pipe(nunjucksRender({
                     path: ['templates']
@@ -304,7 +310,7 @@ gulp.task('build', function(callback) {
 
 gulp.task('default', function(callback) {
   runSequence('assets',
-              [ 'hero', 'logo' ],
+              [ 'hero', 'icons' ],
               [ 'css', 'html', 'static' ],
               'umd',
               callback);
