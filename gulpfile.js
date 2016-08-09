@@ -46,43 +46,55 @@ var options = {
     }
 };
 
-gulp.task('clean', () => del([ 'distribution/**' ]));  
+//TODO: Transform this into a gulp task?
 
-gulp.task('assets', function() {
-    var hero = options.configuration.assets.hero;
-
-    if (/^s3:\/\//.test(hero)) {
+function downloadAsset(asset) {
+    if (/^s3:\/\//.test(asset)) {
         // Pull the assets from S3 with some simple cache logic
         var modstamp = null;
 
-        var hash = crypto.createHash('sha1').update(hero).digest('hex');
-        options.assets.hero = 'assets/' + hash + '.s3';
+        var hash = '_' + crypto.createHash('sha1').update(asset).digest('hex');
+        var local = 'assets/' + hash + '.s3';
 
         try {
-            var stats = fs.statSync(options.assets.hero);
+            var stats = fs.statSync(local);
             modstamp = stats.mtime;
-            // could use this value but for now assume file is up to date
-            // as the s3 library causes this to be propogated as an uncaught
+            // TODO: could use this value but for now assume file is up to date
+            // as the s3 library causes IfModifiedSince to be propogated as an uncaught
             // exception. Investigate and send pull request
-            return;
+            return {
+                local: local
+            };
         }
         catch (e) {
             if (e.code !== 'ENOENT') throw e;
         }
 
-        var parsed = url.parse(hero);
+        var parsed = url.parse(asset);
 
-        return s3.src({ 
-                Bucket: parsed.hostname,
-                Key: parsed.path.substring(1),
-                IfModifiedSince: modstamp
-            })
-            .pipe(rename({dirname:'./', basename: hash, extname: '.s3'}))
-            .pipe(gulp.dest('assets/'));
+        return {
+                local: local,
+                task: s3.src({ 
+                    Bucket: parsed.hostname,
+                    Key: parsed.path.substring(1),
+                    IfModifiedSince: modstamp
+                })
+                .pipe(rename({dirname:'./', basename: hash, extname: '.s3'}))
+                .pipe(gulp.dest('assets/'))
+            }
 
     } else {
-        options.assets.hero = hero;
+        return { local: hero };
     }
+}
+
+gulp.task('clean', () => del([ 'distribution/**' ]));  
+
+gulp.task('assets', function() {
+    var download = downloadAsset(options.configuration.assets.hero);
+
+    options.assets.hero = download.local;
+    return download.task;
 });
 
 
