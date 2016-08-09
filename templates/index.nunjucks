@@ -15,14 +15,14 @@
         <div class="hero__container">
             <div class="hero__content">
                 <code class="fade-in">100%</code>
-                <p class="fade-in delay">All systems are operational.</p>
+                <p class="fade-in delay">All systems operational.</p>
             </div>
-            <a id="smooth" href="#scroll-anchor"><div class="down-arrow"></div></a></div>
+            <a id="smooth" href="#status-data"><div class="down-arrow"></div></a></div>
             
         </div>
     </div>
 
-    <div class="content" id="scroll-anchor">
+    <div class="content" id="status-data">
     <div class="content__container--expand">
         <h2>Item in {{ something }} <strong>content</strong> unit</h2>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>

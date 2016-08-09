@@ -12,7 +12,7 @@
 {% endfor %}
 {% block head %} {% endblock %}
 <link rel="manifest" href="/manifest.json"/>   
-<link rel="stylesheet" type="text/css" href="index.css">
+<link rel="stylesheet" type="text/css" href="index.min.css">
 <!-- Our layout is done in JS so set this up first -->
 <script type="text/javascript" src="index.umd-es2015.min.js"></script>
 </head>

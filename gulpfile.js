@@ -6,7 +6,8 @@ var browserSync = require('browser-sync').create();
 var fs = require('fs'),
     del = require('del'),
     crypto = require('crypto'),
-    url = require('url');
+    url = require('url'),
+    path = require('path');
 
 var compressedImages = require('@redsift/gulp-compressedimages'),
     data = require('gulp-data'),
@@ -23,10 +24,12 @@ var compressedImages = require('@redsift/gulp-compressedimages'),
     minifyCss = require('gulp-cleancss'),
     autoprefixer = require('gulp-autoprefixer'),    
     uglify = require('gulp-uglify'),
+    gutil = require('gulp-util'),
     buffer = require('vinyl-buffer'),
     source = require('vinyl-source-stream'),
     s3 = require('vinyl-s3'),
     base64 = require('postcss-inline-base64'),
+    mapUrl = require('postcss-map-url'),
     merge = require('merge-stream'),
     runSequence = require('run-sequence'); // temporary use of run-sequence until Gulp 4.0
 
@@ -166,6 +169,18 @@ gulp.task('html', function() {
     return merge(manifest, index);                
 });
 
+var BLACKLIST = {
+    '.ttf': true,
+    '.woff2': true    
+}
+
+function inlineUrl(asset) {
+    var parsed = url.parse(asset);
+    if (parsed.protocol == null) return false;
+
+    return BLACKLIST[path.extname(parsed.pathname)] != true;
+}
+
 gulp.task('css', () => {
   return gulp.src('style/index.styl')
     .pipe(gulpif(options.plumb, plumber()))
@@ -173,7 +188,15 @@ gulp.task('css', () => {
       include: __dirname + '/node_modules'
     }))
     .pipe(postcss([
-        base64({ baseDir: 'static/' })
+        mapUrl(function (url) {
+            if (inlineUrl(url)) return 'b64---' + url + '---';
+            
+            gutil.log('CSS, not inlined', url);
+            return url;
+        }),
+        base64({
+            baseDir: './static'
+        })
     ]))
     .pipe(autoprefixer({
       browsers: ['last 2 versions'],
@@ -274,6 +297,7 @@ gulp.task('build', function(callback) {
 gulp.task('default', function(callback) {
   runSequence('assets',
               [ 'hero', 'logo' ],
-              [ 'umd', 'css', 'html', 'static' ],
+              [ 'css', 'html', 'static' ],
+              'umd',
               callback);
 });

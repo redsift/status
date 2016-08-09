@@ -1,3 +1,3 @@
 export default function charts() {
-    console.log('DO IT');
+    console.log('DO IT right');
 }

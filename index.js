@@ -9,6 +9,8 @@ export const d3 = {
   select: select
 };
 
+import { Scroll as Scroll } from '@redsift/ui-rs-core';
+
 import { 
   base64 as placeholder 
 } from './static/hero_0x.jpg';
@@ -45,8 +47,6 @@ const IMAGE_CHECK = WEBP_CHECK.then((webp) => {
   return { webp: webp, retina: retina};
 });
 
-// let img = 'https://static.redsift.io/assets/images/beach_2x.jpg';
-// console.log(placeholder);
 let imageReveal = reveal('svg-reveal')
                     .placeholder(placeholder)
                     .imgWidth(imgWidth)
@@ -55,6 +55,7 @@ let imageReveal = reveal('svg-reveal')
                     .classed('background');
 
 document.addEventListener('DOMContentLoaded', () => {
+  Scroll.initSmooth('#smooth', 0);
   select('.hero').call(imageReveal);
   select('#logo').attr('src', logo);
 });

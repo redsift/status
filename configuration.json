@@ -13,8 +13,7 @@
         "logo": "s3://redsift-assets/github.com/redsift/status/ui/redsift-logo-white.svg"
     },
     "preconnect": [
-        "https://static.redsift.com",
-        "https://fonts.gstatic.com"
+        "https://static.redsift.com"
     ],
     "icons": [
         {

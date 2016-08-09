@@ -1,11 +1,30 @@
-@import '@redsift/ui-rs-core/src/index.import.styl'
+@import '@redsift/ui-rs-core/src/styles/config.import.styl';
+
+@import '@redsift/ui-rs-core/src/styles/common/reset.import.styl'
+@import '@redsift/ui-rs-core/src/styles/common/fonts.import.styl'
+@import '@redsift/ui-rs-core/src/styles/common/patterns.import.styl'
+@import '@redsift/ui-rs-core/src/styles/common/breakpoints.import.styl'
+@import '@redsift/ui-rs-core/src/styles/common/selection.import.styl'
+@import '@redsift/ui-rs-core/src/styles/common/animation.import.styl'
+@import '@redsift/ui-rs-core/src/styles/common/base.import.styl'
+@import '@redsift/ui-rs-core/src/styles/common/types.import.styl'
+@import '@redsift/ui-rs-core/src/styles/components/colour.import.styl'
+
+setup-font-faces(false)
+setup-types($ui-rs-core.types.fonts, $ui-rs-core.types.settings);
+setup-color-system($ui-rs-core.themes.light)
+
+@import '@redsift/ui-rs-core/src/styles/components/widgets.import.styl'
+
+setup-widget__down-arrow()
+
 @import '@redsift/ui-rs-hero/src/index.import.styl'
 
 iconSize = 28px
 iconOffset = 20px
 
 div.hero {
-    height: 50vh;
+    height: 100vh;
 }
 
 div.hero > svg.background {
