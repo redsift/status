@@ -20,8 +20,20 @@ setup-widget__down-arrow()
 
 @import '@redsift/ui-rs-hero/src/index.import.styl'
 
-iconSize = 28px
-iconOffset = 20px
+logoSize = 28px
+iconSize = 128px
+
+html,
+body {
+    min-width: 350px;
+}
+
+#summary {
+    img.status {
+        width: iconSize;
+        height: iconSize;
+    }
+}
 
 div.hero {
     height: 100vh;
@@ -41,8 +53,8 @@ div.hero > img.hero__icon {
     top: 2.3em;
     left: 1.5em;
     z-index: 99;    
-    width: iconSize;
-    height: iconSize;
+    width: logoSize;
+    height: logoSize;
 }
 
 .content__container--expand {

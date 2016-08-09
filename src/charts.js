@@ -1,3 +1,6 @@
-export default function charts() {
-    console.log('DO IT right');
+
+export default function charts(node, charts) {
+    // present charts
+
+    
 }

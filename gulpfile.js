@@ -216,6 +216,12 @@ gulp.task('css', () => {
     .pipe(gulp.dest('distribution/'));
 });
 
+gulp.task('sample-data', () => {  
+    return gulp.src('tests/good.json')
+            .pipe(rename({basename: 'status'}))
+            .pipe(gulp.dest('distribution/'));
+});
+
 gulp.task('umd', () => {  
   return rollup({
             moduleName: 'index',
@@ -225,10 +231,10 @@ gulp.task('umd', () => {
             sourceMap: true,
             plugins: [ 
                         json({
-                            include: [ '**/package.json' , 'node_modules/**/*.json' ], 
+                            include: [ '**/package.json', '**/configuration.json' , 'node_modules/**/*.json' ], 
                             exclude: [  ]
                         }),
-                        imagedata.image(),
+                        imagedata.image({ timeout: 10000 }),
                         string({
                             include: [ '**/*.tmpl' ]
                         }),
@@ -270,7 +276,8 @@ gulp.task('watch', function() {
     gulp.watch('style/*.styl', [ 'css' ]);
     gulp.watch(['templates/**/*.+(html|nunjucks)', 'configuration.json'], [ 'html' ]);
     gulp.watch('static/*.+(svg|jpg)', [ 'static' ]);
-    
+    gulp.watch('test/+(good|minor|major).json', [ 'sample-data' ]);
+
     gulp.watch('distribution/*.js').on('change', () => browserSync.reload('*.js'));
     gulp.watch('distribution/*.css').on('change', () => browserSync.reload('*.css'));
     gulp.watch('distribution/*.html').on('change', () => browserSync.reload('*.html'));
@@ -283,6 +290,7 @@ gulp.task('watch', function() {
 gulp.task('serve', function(callback) {
   runSequence('options',
               'default',
+              'sample-data',
               'browser-sync',
               'watch',
               callback);

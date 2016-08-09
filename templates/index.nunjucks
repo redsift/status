@@ -13,9 +13,11 @@
 <!-- htmllint img-req-src="$previous" -->     
 
         <div class="hero__container">
-            <div class="hero__content">
-                <code class="fade-in">100%</code>
-                <p class="fade-in delay">All systems operational.</p>
+            <div id="summary" class="hero__content">
+<!-- htmllint img-req-src="false" attr-bans="[]" -->            
+                <img class="status" src="" style="visibility: hidden" title="Current Status" alt="..."/>
+                <p class="status" style="visibility: hidden">All systems operational.</p>
+<!-- htmllint img-req-src="$previous" attr-bans="$previous" -->  
             </div>
             <a id="smooth" href="#status-data"><div class="down-arrow"></div></a></div>
             

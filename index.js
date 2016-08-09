@@ -3,7 +3,13 @@ export {
   version
 } from "./package.json";
 
+import { 
+  refresh,
+  data as dataUrl 
+} from "./configuration.json";
+
 import { select } from "d3-selection";
+import { json } from "d3-request"
 
 export const d3 = {
   select: select
@@ -23,10 +29,11 @@ import {
 import { base64 as logo } from './static/logo.svg';
 
 // Import the chart app
+import summary from "./src/summary";
+import messages from "./src/messages";
 import charts from "./src/charts";
-import reveal from "./src/reveal";
 
-charts();
+import reveal from "./src/reveal";
 
 const WEBP_TEST_LOSSY = "UklGRiIAAABXRUJQVlA4IBYAAAAwAQCdASoBAAEADsD+JaQAA3AAAAAA";
 
@@ -54,8 +61,30 @@ let imageReveal = reveal('svg-reveal')
                     .img(IMAGE_CHECK.then(i => `./hero${i.retina ? '_2x' : ''}.${i.webp ? 'webp' : 'jpg'}`))
                     .classed('background');
 
+const loadStatusData = () => new Promise((ok, ko) => json(dataUrl, (err, data) => err == null ? ok(data) : ko(err)));
+
+function presentData(statusData) {
+  statusData.then(d => {
+    summary(select('#summary'), d.summary);
+    messages(select('#messages'), d.messages);
+    charts(select('#charts'), d.charts);
+  })
+  .catch(err => {
+    console.error(`Unable to load status information from ${dataUrl}`, err);
+    summary(select('#summary'));
+    messages(select('#messages'));
+    charts(select('#charts'));
+  })
+}
+
+let initialStatusData = loadStatusData();
+
 document.addEventListener('DOMContentLoaded', () => {
   Scroll.initSmooth('#smooth', 0);
-  select('.hero').call(imageReveal);
+  
   select('#logo').attr('src', logo);
+  select('.hero').call(imageReveal);
+
+  presentData(initialStatusData);
+  setInterval(() => presentData(loadStatusData()), refresh);
 });

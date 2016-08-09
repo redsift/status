@@ -34,12 +34,13 @@
     "@redsift/d3-rs-lines": "~0.2.3",
     "@redsift/ui-rs-core": "~0.3.4",
     "@redsift/ui-rs-hero": "~0.2.0",
+    "d3-request": "^1.0.2",
     "d3-selection": "^1.0.0",
-    "postcss-discard-font-face": "^3.0.0"
+    "d3-time-format": "^2.0.2"
   },
   "devDependencies": {
     "@redsift/gulp-compressedimages": "~0.0.1",
-    "@redsift/rollup-plugin-imagedata": "~1.0.0",
+    "@redsift/rollup-plugin-imagedata": "~1.0.1",
     "@redsift/tape-reel": "~0.1.0",
     "browser-sync": "^2.13.0",
     "del": "^2.2.1",

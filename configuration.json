@@ -7,6 +7,8 @@
     "url": "https://status.redsift.io",
     "background": "#f7f7f7",
     "theme": "red",
+    "data": "http://localhost:3000/status.json",
+    "refresh": 1000,
     "card": "https://static.redsift.io/assets/images/social-card.jpg",
     "assets": {
         "hero": "s3://redsift-assets/github.com/redsift/status/hero/photo-1456824399588-844440089f4b.jpg",
