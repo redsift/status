@@ -10,6 +10,7 @@ import {
 
 import { select } from "d3-selection";
 import { json } from "d3-request"
+import { isoParse } from 'd3-time-format';
 
 export const d3 = {
   select: select
@@ -37,7 +38,7 @@ import reveal from "./src/reveal";
 
 const WEBP_TEST_LOSSY = "UklGRiIAAABXRUJQVlA4IBYAAAAwAQCdASoBAAEADsD+JaQAA3AAAAAA";
 
-const WEBP_CHECK = new Promise(function (ok, ko) {
+const WEBP_CHECK = new Promise(function (ok) {
     let img = new Image();
     img.onload = function() {
         ok(img.width > 0 && img.height > 0);
@@ -63,14 +64,32 @@ let imageReveal = reveal('svg-reveal')
 
 const loadStatusData = () => new Promise((ok, ko) => json(dataUrl, (err, data) => err == null ? ok(data) : ko(err)));
 
+function updatedText(seconds) {
+  if (seconds < 30) {
+    if (seconds < 0) console.warn('Clock skew detected'); // eslint-disable-line no-console
+    return 'Updated a moment ago';
+  } else if (seconds < 2 * 60) {
+    return 'Updated a few minutes ago';
+  } else {
+    console.warn(`Old data, last update was ${seconds} seconds ago`); // eslint-disable-line no-console
+    return 'Updated a while ago';
+  }
+}
+
 function presentData(statusData) {
   statusData.then(d => {
     summary(select('#summary'), d.summary);
     messages(select('#messages'), d.messages);
     charts(select('#charts'), d.charts);
+
+
+    let age = (Date.now() - isoParse(d.summary.last_updated)) / 1000;
+    let text = updatedText(age);
+
+    select('.age').attr('title', `${age.toFixed(0)} seconds ago`).text(text);
   })
   .catch(err => {
-    console.error(`Unable to load status information from ${dataUrl}`, err);
+    console.error(`Unable to load status information from ${dataUrl}`, err); // eslint-disable-line no-console
     summary(select('#summary'));
     messages(select('#messages'));
     charts(select('#charts'));

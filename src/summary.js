@@ -1,4 +1,3 @@
-import { isoParse } from 'd3-time-format';
 
 import { 
   base64 as okIcon 
@@ -12,31 +11,13 @@ import {
   base64 as koIcon 
 } from '../static/major.svg';
 
-function updatedText(seconds) {
-  if (seconds < 30) {
-    if (seconds < 0) console.log('Clock skew detected');
-    return 'Updated a moment ago';
-  } else if (seconds < 2 * 60) {
-    return 'Updated a few minutes ago';
-  } else {
-    console.log(`Old data, last update was ${seconds} seconds ago`);
-    return 'Updated a while ago';
-  }
-}
+
 
 // status = 'good', 'major', 'minor'
 export default function summary(node, summary) {
     let icon = null,
         text = 'Unable to load status information.',
-        status = null,
-        updated = null;
-    
-    if (summary) {
-      status = summary.status;
-      updated = updatedText((Date.now() - isoParse(summary.last_updated)) / 1000);
-    }
-
-    console.log(updated);
+        status = summary ? summary.status : null;
 
     if (status === 'good') {
       icon = okIcon;

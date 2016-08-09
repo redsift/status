@@ -48,13 +48,20 @@ div.hero > svg.background {
     z-index: -1;
 }
 
-div.hero > img.hero__icon {
-    position: absolute;
-    top: 2.3em;
-    left: 1.5em;
+div.hero img.hero__icon {
     z-index: 99;    
     width: logoSize;
     height: logoSize;
+}
+
+.hero__header {
+    padding: 2.3em 1.5em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;    
+    flex-direction: row;
+    flex-wrap: wrap-reverse;
+    width: calc(100% - 60px); /* TODO: Why is this padding there? */
 }
 
 .content__container,

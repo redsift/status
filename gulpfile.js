@@ -280,7 +280,8 @@ gulp.task('browser-sync', function() {
 gulp.task('watch', function() {
     gulp.watch(['index.js', 'src/*.js'], [ 'umd' ]);
     gulp.watch('style/*.styl', [ 'css' ]);
-    gulp.watch(['templates/**/*.+(html|nunjucks)', 'configuration.json'], [ 'html' ]);
+    gulp.watch('templates/**/*.+(html|nunjucks)', [ 'html' ]);
+    gulp.watch('configuration.json', [ 'html', 'umd' ]);
     gulp.watch('static/*.+(svg|jpg)', [ 'static' ]);
     gulp.watch('test/+(good|minor|major).json', [ 'sample-data' ]);
 

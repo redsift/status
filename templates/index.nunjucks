@@ -9,7 +9,10 @@
     <div class="hero -effect-darken">
     
 <!-- htmllint img-req-src="false" -->
-        <img id="logo" src="" class="hero__icon" title="Red Sift" alt="Red Sift Logo"/>
+        <div class="hero__header">
+            <img id="logo" src="" class="hero__icon" title="Red Sift" alt="Red Sift Logo"/>
+            <h5 class="age">...</h5>
+        </div>
 <!-- htmllint img-req-src="$previous" -->     
 
         <div class="hero__container">
