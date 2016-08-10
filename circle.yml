@@ -32,5 +32,5 @@ deployment:
     commands:
       - sudo pip install awscli
       - echo "Uploading to S3 bucket..."
-      - aws s3 cp ${CIRCLE_ARTIFACTS}/distribution s3://$S3_BUCKET/ --recursive --acl public-read
+      - aws s3 cp ${CIRCLE_ARTIFACTS}/distribution s3://$S3_BUCKET/ --recursive --acl public-read --content-encoding=utf-8
       - echo "S3 upload complete."
