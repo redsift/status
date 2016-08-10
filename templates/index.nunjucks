@@ -28,6 +28,11 @@
     </div>
 
     <div class="content" id="status-data">
+    <div class="content__container" id="messages">
+    </div>
+    </div>
+
+    <div class="content" id="status-data">
     <div class="content__container">
         <h4>What is this site?</h4>
         <p>We continuously monitor the status of <a href="{{ references }}">{{ site }}</a> and all related services. If there are any interruptions in service, a note will be posted here.</p>

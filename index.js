@@ -8,8 +8,8 @@ import {
   data as dataUrl 
 } from "./configuration.json";
 
-import { select } from "d3-selection";
-import { json } from "d3-request"
+import { select } from 'd3-selection';
+import { json } from 'd3-request';
 import { isoParse } from 'd3-time-format';
 
 export const d3 = {
