@@ -32,5 +32,12 @@ deployment:
     commands:
       - sudo pip install awscli
       - echo "Uploading to S3 bucket..."
-      - aws s3 cp ${CIRCLE_ARTIFACTS}/distribution s3://$S3_BUCKET/ --recursive --acl public-read --content-encoding=utf-8
+      - aws s3 cp ${CIRCLE_ARTIFACTS}/distribution s3://$S3_BUCKET/ --recursive --acl public-read --exclude "*" --include "*.html" --content-type "text/html; charset=utf-8"
+      - aws s3 cp ${CIRCLE_ARTIFACTS}/distribution s3://$S3_BUCKET/ --recursive --acl public-read --exclude "*" --include "*.css" --content-type "text/css; charset=utf-8"
+      - aws s3 cp ${CIRCLE_ARTIFACTS}/distribution s3://$S3_BUCKET/ --recursive --acl public-read --exclude "*" --include "*.js" --content-type "application/javascript; charset=utf-8"
+      - aws s3 cp ${CIRCLE_ARTIFACTS}/distribution s3://$S3_BUCKET/ --recursive --acl public-read --exclude "*" --include "*.json" --include "*.map" --content-type "application/json; charset=utf-8"
+      - aws s3 cp ${CIRCLE_ARTIFACTS}/distribution s3://$S3_BUCKET/ --recursive --acl public-read --exclude "*" --include "*.svg" --content-type "image/svg+xml; charset=utf-8"
+      - aws s3 cp ${CIRCLE_ARTIFACTS}/distribution s3://$S3_BUCKET/ --recursive --acl public-read --exclude "*" --include "*.jpg" --content-type "image/jpeg"
+      - aws s3 cp ${CIRCLE_ARTIFACTS}/distribution s3://$S3_BUCKET/ --recursive --acl public-read --exclude "*" --include "*.webp" --content-type "image/webp"
+      - aws s3 cp ${CIRCLE_ARTIFACTS}/distribution s3://$S3_BUCKET/ --recursive --acl public-read --exclude "*" --include "*.png" --content-type "image/png"
       - echo "S3 upload complete."
