@@ -49,6 +49,9 @@
     <div class="content__container--expand">
         <h4>What are these charts?</h4>
         <p>These charts are sampled periodically from our own internal metrics about the performance and availability of our services. They’re accurate to within a few minutes.</p>
+    
+        <div id="charts">
+        </div>
     </div>
     </div>
 

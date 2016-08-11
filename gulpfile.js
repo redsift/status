@@ -294,7 +294,7 @@ gulp.task('watch', function() {
     gulp.watch('templates/**/*.+(html|nunjucks)', [ 'html' ]);
     gulp.watch('configuration.json', [ 'html', 'umd' ]);
     gulp.watch('static/*.+(svg|jpg)', [ 'static' ]);
-    gulp.watch('test/+(good|minor|major).json', [ 'sample-data' ]);
+    gulp.watch('tests/+(good|minor|major).json', [ 'sample-data' ]);
 
     gulp.watch('distribution/*.js').on('change', () => browserSync.reload('*.js'));
     gulp.watch('distribution/*.css').on('change', () => browserSync.reload('*.css'));
