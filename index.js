@@ -8,8 +8,8 @@ import {
   data as dataUrl 
 } from "./configuration.json";
 
-import { select } from "d3-selection";
-import { json } from "d3-request"
+import { select, selectAll } from 'd3-selection';
+import { json } from 'd3-request';
 import { isoParse } from 'd3-time-format';
 
 export const d3 = {
@@ -78,6 +78,8 @@ function updatedText(seconds) {
 
 function presentData(statusData) {
   statusData.then(d => {
+    selectAll('.content_separator').attr('class', `content_separator background--${d.summary.status}`);
+
     summary(select('#summary'), d.summary);
     messages(select('#messages'), d.messages);
     charts(select('#charts'), d.charts);
