@@ -22,22 +22,28 @@
                 <p class="status" style="visibility: hidden">All systems operational.</p>
 <!-- htmllint img-req-src="$previous" attr-bans="$previous" -->  
             </div>
-            <a id="smooth" href="#status-data"><div class="down-arrow"></div></a></div>
+            <a id="smooth" href="#status"><div class="down-arrow"></div></a></div>
             
         </div>
     </div>
+
+    <div class="content_separator background--major" id="status"></div>
 
     <div class="content" id="status-data">
     <div class="content__container" id="messages">
     </div>
     </div>
+    
+    <div class="content_separator background--major"></div>
 
-    <div class="content" id="status-data">
+    <div class="content">
     <div class="content__container">
         <h4>What is this site?</h4>
         <p>We continuously monitor the status of <a href="{{ references }}">{{ site }}</a> and all related services. If there are any interruptions in service, a note will be posted here.</p>
     </div>
     </div>
+
+    <div class="content_separator background--major"></div>
 
     <div class="content" id="status-charts">
     <div class="content__container--expand">
@@ -45,4 +51,6 @@
         <p>These charts are sampled periodically from our own internal metrics about the performance and availability of our services. They’re accurate to within a few minutes.</p>
     </div>
     </div>
+
+    <div class="content_separator background--major"></div>
 {% endblock %}

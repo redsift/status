@@ -34,14 +34,12 @@ export default function messages(node, messages) {
     let entries = bind.selectAll('div.entry').data(d => d.values);
 
     let newEntries = entries.enter().append('div').attr('class', 'entry');
-    newEntries.append('div').attr('class', 'time');
+    newEntries.append('code').attr('class', 'time');
     newEntries.append('img').attr('class', 'status');
     newEntries.append('div').attr('class', 'message');
     entries = newEntries.merge(entries);
 
-    entries.select('div.time').text(d => entryTime(d.created_on));
+    entries.select('code.time').text(d => entryTime(d.created_on));
     entries.select('img.status').attr('src', d => iconFor(d.status)).attr('alt', d => d.status);
     entries.select('div.message').text(d => d.body);
-
-    console.log(parsed, nested);
 }

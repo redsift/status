@@ -46,7 +46,8 @@ var options = {
     configuration: function() { return JSON.parse(fs.readFileSync('configuration.json', 'utf8')) },
     assets: {
         hero: './assets/hero-original.jpg'
-    }
+    },
+    staticContent: './static'
 };
 
 //TODO: Transform this into a gulp task?
@@ -74,6 +75,8 @@ function downloadAsset(asset) {
         }
 
         var parsed = url.parse(asset);
+        
+        gutil.log('Downloading', asset, 'from S3');
 
         return {
                 local: local,
@@ -182,8 +185,16 @@ var BLACKLIST = {
 
 function inlineUrl(asset) {
     var parsed = url.parse(asset);
-    if (parsed.protocol == null) return false;
-
+    if (parsed.protocol == null) {
+        try {
+            var stats = fs.statSync(options.staticContent + '/' + asset);
+            return true;
+        }
+        catch (e) {
+            if (e.code !== 'ENOENT') throw e;
+            return false;
+        }
+    }
     return BLACKLIST[path.extname(parsed.pathname)] != true;
 }
 
@@ -201,7 +212,7 @@ gulp.task('css', () => {
             return url;
         }),
         base64({
-            baseDir: './static'
+            baseDir: options.staticContent
         })
     ]))
     .pipe(autoprefixer({

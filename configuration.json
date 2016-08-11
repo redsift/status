@@ -18,7 +18,10 @@
         "logo": "s3://redsift-assets/github.com/redsift/status/ui/redsift-logo-white.svg",
         "good": "s3://redsift-assets/github.com/redsift/status/ui/icon-good.svg",
         "minor": "s3://redsift-assets/github.com/redsift/status/ui/icon-minor.svg",
-        "major": "s3://redsift-assets/github.com/redsift/status/ui/icon-major.svg"        
+        "major": "s3://redsift-assets/github.com/redsift/status/ui/icon-major.svg",
+        "separator-good": "s3://redsift-assets/github.com/redsift/status/ui/separator-good.svg",        
+        "separator-minor": "s3://redsift-assets/github.com/redsift/status/ui/separator-minor.svg",   
+        "separator-major": "s3://redsift-assets/github.com/redsift/status/ui/separator-major.svg"           
     },
     "preconnect": [
         "https://static.redsift.com"
