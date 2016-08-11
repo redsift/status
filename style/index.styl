@@ -160,3 +160,28 @@ div.content_separator {
 .background--major {
     background-image: url('separator-major.svg');
 }
+
+div.chart {
+    padding-bottom: 1em;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+@media only screen and (max-width: 48em) {
+    div.chart {
+        flex-direction: column;
+    }
+}
+
+div.panel-left {
+    min-width: 200px;
+}
+
+div.panel-left > code {
+    font-size: 2.2rem;
+}
+
+div.panel-right {
+    padding-left: 1em;
+}

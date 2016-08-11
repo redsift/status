@@ -1,5 +1,6 @@
-import { isoParse, timeFormat } from 'd3-time-format';
+import { isoParse, timeFormatLocale } from 'd3-time-format';
 import { nest } from 'd3-collection';
+import { time } from '@redsift/d3-rs-intl';
 
 function iconFor(status) {
     if (status === 'good') {
@@ -19,8 +20,9 @@ export default function messages(node, messages) {
 
     let parsed = messages.map(m => ({ status: m.status, body: m.body, created_on: isoParse(m.created_on) }));
 
-    let headingDate = timeFormat('%B %d, %Y');
-    let entryTime = timeFormat('%X');
+    let localeTime = timeFormatLocale(time().d3);
+    let headingDate = localeTime.format('%B %d, %Y');
+    let entryTime = localeTime.format('%X');
 
     let nested = nest().key(m => headingDate(m.created_on)).entries(parsed);
 
