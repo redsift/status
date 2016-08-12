@@ -6,7 +6,7 @@ export default function charts(node, charts) {
     if (charts == null) return;
     
     // TODO: Currently limited to the day
-    let chart = charts.day;
+    let chart = charts.week;
 
     let fmt = chart.map(d => format(d.format));
     let valueFormat = (d,i,v) => `${d.prefix ? d.prefix : ''}${fmt[i](v)}${d.suffix ? d.suffix : ''}`;

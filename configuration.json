@@ -10,7 +10,7 @@
     "support": "mailto:support@redsift.io",
     "copyright": "© 2016 Redsift Limited",
     "theme": "red",
-    "data": "http://localhost:3000/status.json",
+    "data": "https://status.redsift.io/status.json",
     "refresh": 10000,
     "card": "https://static.redsift.io/assets/images/social-card.jpg",
     "assets": {

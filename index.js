@@ -68,7 +68,7 @@ function updatedText(seconds) {
   if (seconds < 30) {
     if (seconds < 0) console.warn('Clock skew detected'); // eslint-disable-line no-console
     return 'Updated a moment ago';
-  } else if (seconds < 2 * 60) {
+  } else if (seconds < 3 * 60) {
     return 'Updated a few minutes ago';
   } else {
     console.warn(`Old data, last update was ${seconds} seconds ago`); // eslint-disable-line no-console
