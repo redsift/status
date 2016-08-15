@@ -65,7 +65,7 @@ let imageReveal = reveal('svg-reveal')
 const loadData = (url) => new Promise((ok, ko) => json(url, (err, data) => err == null ? ok(data) : ko(err)));
 
 function updatedText(seconds) {
-  if (seconds < 30) {
+  if (seconds < 70) {
     if (seconds < 0) console.warn('Clock skew detected'); // eslint-disable-line no-console
     return 'Updated a moment ago';
   } else if (seconds < 3 * 60) {
