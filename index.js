@@ -5,7 +5,7 @@ export {
 
 import { 
   refresh,
-  data as dataUrl 
+  api as dataUrls 
 } from "./configuration.json";
 
 import { select, selectAll } from 'd3-selection';
@@ -62,7 +62,7 @@ let imageReveal = reveal('svg-reveal')
                     .img(IMAGE_CHECK.then(i => `./hero${i.retina ? '_2x' : ''}.${i.webp ? 'webp' : 'jpg'}`))
                     .classed('background');
 
-const loadStatusData = () => new Promise((ok, ko) => json(dataUrl, (err, data) => err == null ? ok(data) : ko(err)));
+const loadData = (url) => new Promise((ok, ko) => json(url, (err, data) => err == null ? ok(data) : ko(err)));
 
 function updatedText(seconds) {
   if (seconds < 30) {
@@ -76,14 +76,12 @@ function updatedText(seconds) {
   }
 }
 
-function presentData(statusData) {
+function presentData(statusData, chartData) {
   statusData.then(d => {
     selectAll('.content_separator').attr('class', `content_separator background--${d.summary.status}`);
 
     summary(select('#summary'), d.summary);
     messages(select('#messages'), d.messages);
-    charts(select('#charts'), d.charts);
-
 
     let age = (Date.now() - isoParse(d.summary.last_updated)) / 1000;
     let text = updatedText(age);
@@ -91,14 +89,22 @@ function presentData(statusData) {
     select('.age').attr('title', `${age.toFixed(0)} seconds ago`).text(text);
   })
   .catch(err => {
-    console.error(`Unable to load status information from ${dataUrl}`, err); // eslint-disable-line no-console
+    console.error(`Unable to load status information`, err); // eslint-disable-line no-console
     summary(select('#summary'));
     messages(select('#messages'));
-    charts(select('#charts'));
+  });
+
+  chartData.then(d => {
+    charts(select('#charts'), d);
   })
+  .catch(err => {
+    console.error(`Unable to load chart information`, err); // eslint-disable-line no-console
+    charts(select('#charts'));
+  });  
 }
 
-let initialStatusData = loadStatusData();
+let initialStatusData = loadData(dataUrls.status);
+let initialChartData = loadData(dataUrls.charts);
 
 document.addEventListener('DOMContentLoaded', () => {
   Scroll.initSmooth('#smooth', 0);
@@ -106,6 +112,6 @@ document.addEventListener('DOMContentLoaded', () => {
   select('#logo').attr('src', logo);
   select('.hero').call(imageReveal);
 
-  presentData(initialStatusData);
-  setInterval(() => presentData(loadStatusData()), refresh);
+  presentData(initialStatusData, initialChartData);
+  setInterval(() => presentData(loadData(dataUrls.status), loadData(dataUrls.charts)), refresh);
 });

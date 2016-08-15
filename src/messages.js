@@ -9,6 +9,8 @@ function iconFor(status) {
       return '/minor.svg';
     } else if (status === 'major') {
       return '/major.svg';
+    } else if (status === 'announcement') {
+      return '/note.svg';
     }  
     return null;  
 }
