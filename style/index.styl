@@ -128,7 +128,7 @@ div.day {
 div.entry {
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
+    align-items: baseline;
     padding-bottom: 0.5em;
 }
 
@@ -140,6 +140,11 @@ div.entry > .time {
 
 div.entry > * {
     padding-right: 1em;
+}
+
+
+div.entry p {
+    margin: 0px;
 }
 
 div.content_separator {
@@ -159,6 +164,12 @@ div.content_separator {
 
 .background--major {
     background-image: url('separator-major.svg');
+}
+
+div#charts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 div.chart {

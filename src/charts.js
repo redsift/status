@@ -1,12 +1,14 @@
-import { html as graph, timeMultiFormat } from "@redsift/d3-rs-lines";
+import { html as graph, timeMultiFormat } from '@redsift/d3-rs-lines';
 import { format } from "d3-format"
 import { select } from 'd3-selection';
+
+import { presentation10 } from '@redsift/d3-rs-theme';
 
 export default function charts(node, charts) {
     if (charts == null) return;
     
     // TODO: Currently limited to the day
-    let chart = charts.day;
+    let chart = charts.week;
 
     let fmt = chart.map(d => format(d.format));
     let valueFormat = (d,i,v) => `${d.prefix ? d.prefix : ''}${fmt[i](v)}${d.suffix ? d.suffix : ''}`;
@@ -25,11 +27,16 @@ export default function charts(node, charts) {
     bind.select('h5').text(d => d.display);
     bind.select('code').text((d, i) => valueFormat(d, i, d.data[d.data.length - 1].v));
 
+    let fill = presentation10.standard[presentation10.names.blue];
+
     bind.select('.panel-right').each(function (d,i) {
         let viz = graph(`graph-${i}`)
                         .labelTime(timeMultiFormat({ localtime: true }))
                         .curve('curveMonotoneX')
-                        .tickFormatValue(d.format);
+                        .tickFormatValue(d.format)
+                        .tickCountIndex(4)
+                        .niceIndex(false)
+                        .fill(fill);
                         
         if (d.minor) {
             viz = viz.tickMinorIndex(d.minor);

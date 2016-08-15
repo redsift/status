@@ -10,7 +10,10 @@
     "support": "mailto:support@redsift.io",
     "copyright": "© 2016 Redsift Limited",
     "theme": "red",
-    "data": "http://localhost:3000/status.json",
+    "api": {
+        "status": "https://status.redsift.io/api/status.json",
+        "charts": "https://status.redsift.io/api/charts.json"
+    },
     "refresh": 10000,
     "card": "https://static.redsift.io/assets/images/social-card.jpg",
     "assets": {
@@ -19,6 +22,7 @@
         "good": "s3://redsift-assets/github.com/redsift/status/ui/icon-good.svg",
         "minor": "s3://redsift-assets/github.com/redsift/status/ui/icon-minor.svg",
         "major": "s3://redsift-assets/github.com/redsift/status/ui/icon-major.svg",
+        "note": "s3://redsift-assets/github.com/redsift/status/ui/icon-note.svg",
         "separator-good": "s3://redsift-assets/github.com/redsift/status/ui/separator-good.svg",        
         "separator-minor": "s3://redsift-assets/github.com/redsift/status/ui/separator-minor.svg",   
         "separator-major": "s3://redsift-assets/github.com/redsift/status/ui/separator-major.svg"           

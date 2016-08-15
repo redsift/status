@@ -38,7 +38,8 @@
     "d3-collection": "^1.0.1",
     "d3-request": "^1.0.2",
     "d3-selection": "^1.0.0",
-    "d3-time-format": "^2.0.2"
+    "d3-time-format": "^2.0.2",
+    "showdown": "^1.4.2"
   },
   "devDependencies": {
     "@redsift/gulp-compressedimages": "~0.0.1",
