@@ -1,6 +1,7 @@
 import { isoParse, timeFormatLocale } from 'd3-time-format';
 import { nest } from 'd3-collection';
 import { time } from '@redsift/d3-rs-intl';
+import Showdown from 'showdown';
 
 function iconFor(status) {
     if (status === 'good') {
@@ -15,8 +16,9 @@ function iconFor(status) {
     return null;  
 }
 
+const converter = new Showdown.Converter();
+
 export default function messages(node, messages) {
-    // list of messages    
 
     if (messages == null) return;
 
@@ -45,5 +47,5 @@ export default function messages(node, messages) {
 
     entries.select('code.time').text(d => entryTime(d.created_on));
     entries.select('img.status').attr('src', d => iconFor(d.status)).attr('alt', d => d.status);
-    entries.select('div.message').text(d => d.body);
+    entries.select('div.message').html(d => converter.makeHtml(d.body));
 }
