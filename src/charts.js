@@ -34,6 +34,8 @@ export default function charts(node, charts) {
                         .labelTime(timeMultiFormat({ localtime: true }))
                         .curve('curveMonotoneX')
                         .tickFormatValue(d.format)
+                        .tickCountIndex(4)
+                        .niceIndex(false)
                         .fill(fill);
                         
         if (d.minor) {
