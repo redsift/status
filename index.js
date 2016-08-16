@@ -19,6 +19,11 @@ export const d3 = {
 import { Scroll as Scroll } from '@redsift/ui-rs-core';
 
 import { 
+  html as reveal, 
+  checkSupported
+} from "@redsift/d3-rs-reveal";
+
+import { 
   base64 as placeholder 
 } from './static/hero_0x.jpg';
 
@@ -34,32 +39,11 @@ import summary from "./src/summary";
 import messages from "./src/messages";
 import charts from "./src/charts";
 
-import reveal from "./src/reveal";
-
-const WEBP_TEST_LOSSY = "UklGRiIAAABXRUJQVlA4IBYAAAAwAQCdASoBAAEADsD+JaQAA3AAAAAA";
-
-const WEBP_CHECK = new Promise(function (ok) {
-    let img = new Image();
-    img.onload = function() {
-        ok(img.width > 0 && img.height > 0);
-    };
-    img.onerror = function() {
-        ok(false);
-    };
-    img.src = "data:image/webp;base64," + WEBP_TEST_LOSSY;
-});
-
-const IMAGE_CHECK = WEBP_CHECK.then((webp) => {
-  let retina = window.devicePixelRatio > 1;
-
-  return { webp: webp, retina: retina};
-});
-
 let imageReveal = reveal('svg-reveal')
                     .placeholder(placeholder)
                     .imgWidth(imgWidth)
                     .imgHeight(imgHeight)
-                    .img(IMAGE_CHECK.then(i => `./hero${i.retina ? '_2x' : ''}.${i.webp ? 'webp' : 'jpg'}`))
+                    .img(checkSupported.then(i => `./hero${i.retina ? '_2x' : ''}.${i.webp ? 'webp' : 'jpg'}`))
                     .classed('background');
 
 const loadData = (url) => new Promise((ok, ko) => json(url, (err, data) => err == null ? ok(data) : ko(err)));
