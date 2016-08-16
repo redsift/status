@@ -36,6 +36,8 @@ export default function charts(node, charts) {
                         .tickFormatValue(d.format)
                         .tickCountIndex(4)
                         .niceIndex(false)
+                        .width(280)
+                        .height(170)
                         .fill(fill);
                         
         if (d.minor) {
