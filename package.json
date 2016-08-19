@@ -33,7 +33,7 @@
   "dependencies": {
     "@redsift/d3-rs-intl": "~0.0.2",
     "@redsift/d3-rs-lines": "~0.2.3",
-    "@redsift/ui-rs-core": "~0.3.4",
+    "@redsift/ui-rs-core": "~0.3.5",
     "@redsift/ui-rs-hero": "~0.2.0",
     "@redsift/d3-rs-reveal": "~0.1.0",
     "d3-collection": "^1.0.1",
