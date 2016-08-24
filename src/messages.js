@@ -5,13 +5,13 @@ import Showdown from 'showdown';
 
 function iconFor(status) {
     if (status === 'good') {
-      return '/good.svg';
+      return '/good-small.svg';
     } else if (status === 'minor') {
-      return '/minor.svg';
+      return '/minor-small.svg';
     } else if (status === 'major') {
-      return '/major.svg';
+      return '/major-small.svg';
     } else if (status === 'announcement') {
-      return '/note.svg';
+      return '/note-small.svg';
     }  
     return null;  
 }

@@ -23,6 +23,10 @@
         "minor": "s3://redsift-assets/github.com/redsift/status/ui/icon-minor.svg",
         "major": "s3://redsift-assets/github.com/redsift/status/ui/icon-major.svg",
         "note": "s3://redsift-assets/github.com/redsift/status/ui/icon-note.svg",
+        "good-small": "s3://redsift-assets/github.com/redsift/status/ui/icon-good-small.svg",
+        "minor-small": "s3://redsift-assets/github.com/redsift/status/ui/icon-minor-small.svg",
+        "major-small": "s3://redsift-assets/github.com/redsift/status/ui/icon-major-small.svg",
+        "note-small": "s3://redsift-assets/github.com/redsift/status/ui/icon-note-small.svg",
         "separator-good": "s3://redsift-assets/github.com/redsift/status/ui/separator-good.svg",        
         "separator-minor": "s3://redsift-assets/github.com/redsift/status/ui/separator-minor.svg",   
         "separator-major": "s3://redsift-assets/github.com/redsift/status/ui/separator-major.svg"           
