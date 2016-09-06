@@ -10,3 +10,5 @@ assets/
 *.icc
 
 static/
+
+.DS_Store
