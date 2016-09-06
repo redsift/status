@@ -31,9 +31,9 @@ export default function charts(node, charts) {
 
     bind.select('.panel-right').each(function (d,i) {
         if (d.data.length === 0) return;
-        
+
         let viz = graph(`graph-${i}`)
-                        .labelTime(timeMultiFormat({ localtime: true }))
+                        .labelTime(timeMultiFormat({ localtime: true, month: '%b' }))
                         .curve('curveMonotoneX')
                         .tickFormatValue(d.format)
                         .tickCountIndex(4)
