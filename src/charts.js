@@ -25,11 +25,13 @@ export default function charts(node, charts) {
     bind = bind.merge(newBind);
 
     bind.select('h5').text(d => d.display);
-    bind.select('code').text((d, i) => valueFormat(d, i, d.data[d.data.length - 1].v));
+    bind.select('code').text((d, i) => d.data.length ? valueFormat(d, i, d.data[d.data.length - 1].v) : '-');
 
     let fill = presentation10.standard[presentation10.names.blue];
 
     bind.select('.panel-right').each(function (d,i) {
+        if (d.data.length === 0) return;
+        
         let viz = graph(`graph-${i}`)
                         .labelTime(timeMultiFormat({ localtime: true }))
                         .curve('curveMonotoneX')
