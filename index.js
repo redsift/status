@@ -73,7 +73,7 @@ function presentData(statusData, chartData) {
     select('.age').attr('title', `${age.toFixed(0)} seconds ago`).text(text);
   })
   .catch(err => {
-    console.error(`Unable to load status information`, err); // eslint-disable-line no-console
+    console.error(`Unable to load status information`, err.stack ? err.stack : err); // eslint-disable-line no-console
     summary(select('#summary'));
     messages(select('#messages'));
   });
@@ -82,7 +82,7 @@ function presentData(statusData, chartData) {
     charts(select('#charts'), d);
   })
   .catch(err => {
-    console.error(`Unable to load chart information`, err); // eslint-disable-line no-console
+    console.error(`Unable to load chart information`, err.stack ? err.stack : err); // eslint-disable-line no-console
     charts(select('#charts'));
   });  
 }

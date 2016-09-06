@@ -19,6 +19,7 @@ checkout:
     
 dependencies: 
   override:
+    - rm -Rf node_modules
     - npm install
     - mv ./distribution ${CIRCLE_ARTIFACTS}/distribution
 

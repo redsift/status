@@ -10,3 +10,7 @@ assets/
 *.icc
 
 static/
+
+.DS_Store
+
+.base64-cache/
