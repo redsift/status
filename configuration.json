@@ -1,8 +1,8 @@
 {
     "#": "Configuration file for status page",
     "site": "Red Sift",
-    "title": "Red Sift: System Status",
-    "short": "Red Sift: Status",
+    "title": "Red Sift - System Status",
+    "short": "Red Sift - Status",
     "description": "View our current system status.",
     "url": "https://status.redsift.cloud",
     "references": "https://redsift.com",
