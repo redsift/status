@@ -234,9 +234,8 @@ gulp.task('css', () => {
 });
 
 gulp.task('sample-data', () => {  
-    return gulp.src('tests/good.json')
-            .pipe(rename({basename: 'status'}))
-            .pipe(gulp.dest('distribution/'));
+    return gulp.src([ 'tests/status.json', 'tests/charts.json' ])
+            .pipe(gulp.dest('distribution/api/'));
 });
 
 gulp.task('umd', () => {  

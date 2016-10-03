@@ -1,6 +1,6 @@
 {
   "name": "@redsift/status",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Static, graphical status pages.",
   "keywords": [
     "status",
@@ -33,7 +33,7 @@
   "dependencies": {
     "@redsift/d3-rs-intl": "~0.0.2",
     "@redsift/d3-rs-lines": "~0.2.3",
-    "@redsift/ui-rs-core": "~0.4.0",
+    "@redsift/ui-rs-core": "~0.8.3",
     "@redsift/ui-rs-hero": "~0.2.0",
     "@redsift/d3-rs-reveal": "~0.1.0",
     "d3-collection": "^1.0.1",
