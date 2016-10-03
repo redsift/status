@@ -19,10 +19,13 @@ function iconFor(status) {
 const converter = new Showdown.Converter();
 
 export default function messages(node, messages) {
-
     if (messages == null) return;
 
     let parsed = messages.map(m => ({ status: m.status, body: m.body, created_on: isoParse(m.created_on) }));
+
+    if (parsed.length === 0) {
+      parsed = [{ status: 'good', body: 'All systems operational', created_on: new Date() }];
+    }
 
     let localeTime = timeFormatLocale(time().d3);
     let headingDate = localeTime.format('%B %d, %Y');

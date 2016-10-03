@@ -16,7 +16,9 @@ export const d3 = {
   select: select
 };
 
+/* TODO: Remove this for now, not working
 import { Scroll as Scroll } from '@redsift/ui-rs-core';
+*/
 
 import { 
   html as reveal, 
@@ -91,8 +93,10 @@ let initialStatusData = loadData(dataUrls.status);
 let initialChartData = loadData(dataUrls.charts);
 
 document.addEventListener('DOMContentLoaded', () => {
+  /* TODO: Remove this for now, not working
   Scroll.initSmooth('#smooth', 0);
-  
+  */
+
   select('#logo').attr('src', logo);
   select('.hero').call(imageReveal);
 

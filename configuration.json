@@ -1,18 +1,18 @@
 {
     "#": "Configuration file for status page",
     "site": "Red Sift",
-    "title": "Red Sift System Status",
-    "short": "Red Sift Status",
+    "title": "Red Sift: System Status",
+    "short": "Red Sift: Status",
     "description": "View our current system status.",
-    "url": "https://status.redsift.io",
-    "references": "https://redsift.io",
+    "url": "https://status.redsift.cloud",
+    "references": "https://redsift.com",
     "background": "#f7f7f7",
-    "support": "mailto:support@redsift.io",
+    "support": "mailto:contact@redsift.io",
     "copyright": "© 2016 Redsift Limited",
     "theme": "red",
     "api": {
-        "status": "https://status.redsift.io/api/status.json",
-        "charts": "https://status.redsift.io/api/charts.json"
+        "status": "/api/status.json",
+        "charts": "/api/charts.json"
     },
     "refresh": 10000,
     "card": "https://static.redsift.io/assets/images/social-card.jpg",
@@ -32,7 +32,7 @@
         "separator-major": "s3://redsift-assets/github.com/redsift/status/ui/separator-major.svg"           
     },
     "preconnect": [
-        "https://static.redsift.com"
+        "https://static.redsift.io"
     ],
     "icons": [
         {
