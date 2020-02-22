@@ -8,7 +8,7 @@
     "references": "https://redsift.com",
     "background": "#f7f7f7",
     "support": "mailto:contact@redsift.io",
-    "copyright": "© 2019 Redsift Limited",
+    "copyright": "© 2020 Redsift Limited",
     "theme": "red",
     "api": {
         "status": "/api/status.json",
