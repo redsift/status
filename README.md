@@ -5,6 +5,9 @@
 
 Super simple, completely static, status pages.
 
+## Instructions to post a message on the status page
+Post an event on datadog using `@status-<{{status}}> message` and it will appear on the status page in a few minutes. {{status}} can be major, minor, good or announcement.
+
 ## ImageMagick
 
 The build process transcodes and embeds images to optimize display of images, including exporting WEBP images to be loaded in compatible browsers. Build relies on a compatible install of ImageMagick in the path. Specifically, the insalled version should support SVG, WEBP and have Little CMS support.
